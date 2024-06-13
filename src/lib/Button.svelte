@@ -3,6 +3,8 @@
   export let shadow = false;
   export let bgColor;
   export let textColor;
+
+  let isLeftHovered;
 </script>
 
 <button
@@ -12,19 +14,33 @@
   class:size-sm={size === "small"}
   class:shadow
 >
-  <slot />
+  {#if $$slots.leftContent}
+    <div
+      class="left-content"
+      on:mouseenter={() => (isLeftHovered = true)}
+      on:mouseleave={() => (isLeftHovered = false)}
+    >
+      <slot name="leftContent" />
+    </div>
+  {/if}
+  <slot {isLeftHovered}>Fallback</slot>
 </button>
 
 <style lang="scss">
   @use "../styles/variables";
 
   button {
+    display: flex;
+    align-items: center;
     border: none;
     background-color: variables.$color;
     color: var(--buttonTextColor);
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
+    .left-content {
+      margin-right: 10px;
+    }
     &.size-sm {
       padding: 15px 20px;
     }
