@@ -1,9 +1,13 @@
 <script>
   export let size = "small";
   export let shadow = false;
+  export let bgColor;
+  export let textColor;
 </script>
 
 <button
+  style:background-color={bgColor}
+  style:color={textColor}
   class:size-lg={size === "large"}
   class:size-sm={size === "small"}
   class:shadow
@@ -17,7 +21,7 @@
   button {
     border: none;
     background-color: variables.$color;
-    color: #fff;
+    color: var(--buttonTextColor);
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
