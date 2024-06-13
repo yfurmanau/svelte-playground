@@ -1,5 +1,8 @@
 # Svelte + Vite
 
+To create a new project:
+`npm create vite@latest vite-playground -- --template svelte`
+
 This template should help get you started developing with Svelte in Vite.
 
 ## Recommended IDE Setup
