@@ -1,6 +1,5 @@
 {
   "plugins": ["prettier-plugin-svelte"],
   "pluginSearchDirs": ["."],
-  "overrides": [{ "files": "*.svelte", "options": { "parser": "svelte" } }],
-  "svelteSortOrder": "markup-options-scripts-styles"
+  "overrides": [{ "files": "*.svelte", "options": { "parser": "svelte" } }]
 }
