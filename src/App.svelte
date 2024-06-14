@@ -21,6 +21,33 @@
       completed: false,
     },
   ];
+
+  const handleAddTodo = (event) => {
+    const { title } = event.detail;
+    todos = todos.concat({
+      id: uuid(),
+      title,
+      completed: false,
+    });
+  };
+
+  const handleRemoveTodo = (event) => {
+    const { id } = event.detail;
+    todos = todos.filter((todo) => todo.id !== id);
+  };
+
+  const handleToggleTodo = (event) => {
+    const { id, completed } = event.detail;
+    todos = todos.map((todo) => {
+      if (todo.id === id) {
+        return {
+          ...todo,
+          completed,
+        };
+      }
+      return todo;
+    });
+  };
 </script>
 
 <Button
@@ -38,8 +65,12 @@
   Please click me! {isLeftHovered}
 </Button>
 
-<h2>{todos.length} Todos</h2>
-<TodoList bind:todos />
+<TodoList
+  {todos}
+  on:addtodo={handleAddTodo}
+  on:removetodo={handleRemoveTodo}
+  on:toggletodo={handleToggleTodo}
+/>
 
 <style>
 </style>

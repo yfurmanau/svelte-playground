@@ -1,25 +1,47 @@
 <script>
-  import { v4 as uuid } from "uuid";
+  import { createEventDispatcher } from "svelte";
 
   export let todos = [];
   let inputText;
 
+  const dispatch = createEventDispatcher();
+
   const handleAddTodo = () => {
-    if (!inputText) return;
-    todos = todos.concat({
-      id: uuid(),
+    dispatch("addtodo", {
       title: inputText,
-      completed: false,
     });
     inputText = "";
+  };
+
+  const handleRemoveTodo = (id) => {
+    dispatch("removetodo", {
+      id,
+    });
+  };
+
+  const handleToggleTodo = (id, value) => {
+    dispatch("toggletodo", {
+      id,
+      completed: value,
+    });
   };
 </script>
 
 <div class="todo-list-wrapper">
   <ul>
-    {#each todos as { id, title }, index (id)}
+    {#each todos as { id, title, completed }, index (id)}
       {@const order = index + 1}
-      <li>{order} - {title}</li>
+      <li>
+        <label>
+          <input
+            type="checkbox"
+            checked={completed}
+            on:input={() => handleToggleTodo(id, !completed)}
+          />
+          {order} - {title}
+          <button on:click={() => handleRemoveTodo(id)}>Remove</button>
+        </label>
+      </li>
     {/each}
   </ul>
   <form class="add-todo-form" on:submit|preventDefault={handleAddTodo}>
