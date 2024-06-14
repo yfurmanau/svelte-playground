@@ -4,6 +4,7 @@
   export let bgColor;
   export let textColor;
 
+  console.log($$restProps);
   let isLeftHovered;
 </script>
 
@@ -13,6 +14,8 @@
   class:size-lg={size === "large"}
   class:size-sm={size === "small"}
   class:shadow
+  {...$$restProps}
+  on:click|preventDefault
 >
   {#if $$slots.leftContent}
     <div
@@ -50,6 +53,10 @@
     }
     &.shadow {
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
     &:hover {
       background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));

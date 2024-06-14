@@ -3,7 +3,15 @@
   import { FaAngellist } from "svelte-icons/fa";
 </script>
 
-<Button let:isLeftHovered size="small" shadow bgColor="red" textColor="white">
+<Button
+  let:isLeftHovered
+  size="small"
+  shadow
+  bgColor="red"
+  textColor="white"
+  disabled
+  on:click|once={() => alert("Hello world")}
+>
   <div style="width: 20px" slot="leftContent">
     <FaAngellist />
   </div>
