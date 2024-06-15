@@ -23,6 +23,12 @@
       title: "Learn Vue",
       completed: false,
     },
+    {
+      id: uuid(),
+      title:
+        "A long long long long long long long long long long long long long long long long long long long long long long long long long",
+      completed: false,
+    },
   ];
 
   const handleAddTodo = async (event) => {

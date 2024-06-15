@@ -20,24 +20,16 @@
   let listDiv;
 
   onMount(() => {
-    console.log("[TodoList] mounted");
-    return () => {
-      console.log("[TodoList] destroyed from onMount");
-    };
+    return () => {};
   });
 
-  beforeUpdate(() => {
-    console.log("[TodoList] before updated");
-  });
+  beforeUpdate(() => {});
 
   afterUpdate(() => {
-    console.log("[TodoList] after updated");
     listDiv.scrollTo(0, listDiv.scrollHeight);
   });
 
-  onDestroy(() => {
-    console.log("[TodoList] destroyed");
-  });
+  onDestroy(() => {});
 
   const handleAddTodo = () => {
     dispatch("addtodo", {
@@ -63,22 +55,31 @@
 <div class="todo-list-wrapper">
   {listDivHeight}
   <div class="todo-list" bind:offsetHeight={listDivHeight} bind:this={listDiv}>
-    <ul>
-      {#each todos as { id, title, completed }, index (id)}
-        {@const order = index + 1}
-        <li>
-          <label>
-            <input
-              type="checkbox"
-              checked={completed}
-              on:input={() => handleToggleTodo(id, !completed)}
-            />
-            {order} - {title}
-            <button on:click={() => handleRemoveTodo(id)}>Remove</button>
-          </label>
-        </li>
-      {/each}
-    </ul>
+    {#if todos.length === 0}
+      <p class="no-items-text">No todos yet</p>
+    {:else}
+      <ul>
+        {#each todos as { id, title, completed }, index (id)}
+          {@const order = index + 1}
+          <li class:completed>
+            <label>
+              <input
+                type="checkbox"
+                checked={completed}
+                on:input={() => handleToggleTodo(id, !completed)}
+              />
+              {order} - {title}
+              <button
+                class="remove-todo-button"
+                on:click={() => handleRemoveTodo(id)}
+              >
+                Remove
+              </button>
+            </label>
+          </li>
+        {/each}
+      </ul>
+    {/if}
   </div>
   <form class="add-todo-form" on:submit|preventDefault={handleAddTodo}>
     <input bind:value={inputText} type="text" />
