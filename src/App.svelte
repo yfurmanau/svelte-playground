@@ -3,6 +3,7 @@
   import { FaAngellist } from "svelte-icons/fa";
   import TodoList from "./lib/TodoList.svelte";
   import { v4 as uuid } from "uuid";
+  import { tick } from "svelte";
 
   let showList = true;
 
@@ -24,13 +25,16 @@
     },
   ];
 
-  const handleAddTodo = (event) => {
+  const handleAddTodo = async (event) => {
     const { title } = event.detail;
+    console.log(document.querySelectorAll(".todo-list ul li"));
     todos = todos.concat({
       id: uuid(),
       title,
       completed: false,
     });
+    await tick();
+    console.log(document.querySelectorAll(".todo-list ul li"));
   };
 
   const handleRemoveTodo = (event) => {
