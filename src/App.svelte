@@ -4,6 +4,8 @@
   import TodoList from "./lib/TodoList.svelte";
   import { v4 as uuid } from "uuid";
   import { onMount, tick } from "svelte";
+  import { slide, blur, fly } from "svelte/transition";
+  import { cubicOut } from "svelte/easing";
 
   let showList = true;
 
@@ -78,7 +80,15 @@
 </label>
 
 {#if showList}
-  <div style="max-width: 200px">
+  <div
+    in:slide={{ duration: 700, easing: cubicOut }}
+    out:blur={{ amount: 10, duration: 700 }}
+    on:introstart={() => console.log("introstart")}
+    on:introend={() => console.log("introtend")}
+    on:outrostart={() => console.log("outrostart")}
+    on:outroend={() => console.log("outroend")}
+    style="max-width: 400px"
+  >
     <TodoList
       {todos}
       on:addtodo={handleAddTodo}
@@ -86,6 +96,14 @@
       on:toggletodo={handleToggleTodo}
     />
   </div>
+  {#if todos}
+    <p>
+      Number of todos:
+      {#key todos.length}
+        <div in:fly={{ y: -10 }}>{todos.length}</div>
+      {/key}
+    </p>
+  {/if}
 {/if}
 
 <style>

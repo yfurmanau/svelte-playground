@@ -6,6 +6,7 @@
     onDestroy,
     onMount,
   } from "svelte";
+  import { scale } from "svelte/transition";
 
   export let todos = null;
   let prevTodos = todos;
@@ -65,7 +66,7 @@
         <ul>
           {#each todos as { id, title, completed }, index (id)}
             {@const order = index + 1}
-            <li class:completed>
+            <li transition:scale|local={{ start: 0.5 }} class:completed>
               <label>
                 <input
                   type="checkbox"
@@ -94,7 +95,7 @@
 
 <style>
   .todo-list {
-    max-height: 150px;
+    max-height: 250px;
     overflow: auto;
   }
 </style>
