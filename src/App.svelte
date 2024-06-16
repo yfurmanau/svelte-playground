@@ -3,33 +3,28 @@
   import { FaAngellist } from "svelte-icons/fa";
   import TodoList from "./lib/TodoList.svelte";
   import { v4 as uuid } from "uuid";
-  import { tick } from "svelte";
+  import { onMount, tick } from "svelte";
 
   let showList = true;
 
-  let todos = [
-    {
-      id: uuid(),
-      title: "Learn Svelte",
-      completed: true,
-    },
-    {
-      id: uuid(),
-      title: "Learn React",
-      completed: false,
-    },
-    {
-      id: uuid(),
-      title: "Learn Vue",
-      completed: false,
-    },
-    {
-      id: uuid(),
-      title:
-        "A long long long long long long long long long long long long long long long long long long long long long long long long long",
-      completed: false,
-    },
-  ];
+  let todos = null;
+
+  const loadTodos = async () => {
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/todos?_limit=10",
+      );
+      if (response.ok) {
+        todos = await response.json();
+      }
+    } catch (error) {
+      throw new Error("An error has occurred");
+    }
+  };
+
+  onMount(() => {
+    loadTodos();
+  });
 
   const handleAddTodo = async (event) => {
     const { title } = event.detail;

@@ -7,7 +7,7 @@
     onMount,
   } from "svelte";
 
-  export let todos = [];
+  export let todos = null;
   let prevTodos = todos;
   let inputText;
   let listDivHeight;
@@ -25,9 +25,9 @@
 
   beforeUpdate(() => {});
 
-  afterUpdate(() => {
-    listDiv.scrollTo(0, listDiv.scrollHeight);
-  });
+  // afterUpdate(() => {
+  //   listDiv.scrollTo(0, listDiv.scrollHeight);
+  // });
 
   onDestroy(() => {});
 
@@ -53,34 +53,39 @@
 </script>
 
 <div class="todo-list-wrapper">
-  {listDivHeight}
-  <div class="todo-list" bind:offsetHeight={listDivHeight} bind:this={listDiv}>
-    {#if todos.length === 0}
-      <p class="no-items-text">No todos yet</p>
-    {:else}
-      <ul>
-        {#each todos as { id, title, completed }, index (id)}
-          {@const order = index + 1}
-          <li class:completed>
-            <label>
-              <input
-                type="checkbox"
-                checked={completed}
-                on:input={() => handleToggleTodo(id, !completed)}
-              />
-              {order} - {title}
-              <button
-                class="remove-todo-button"
-                on:click={() => handleRemoveTodo(id)}
-              >
-                Remove
-              </button>
-            </label>
-          </li>
-        {/each}
-      </ul>
-    {/if}
-  </div>
+  {#if todos}
+    <div
+      class="todo-list"
+      bind:offsetHeight={listDivHeight}
+      bind:this={listDiv}
+    >
+      {#if todos.length === 0}
+        <p class="no-items-text">No todos yet</p>
+      {:else}
+        <ul>
+          {#each todos as { id, title, completed }, index (id)}
+            {@const order = index + 1}
+            <li class:completed>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={completed}
+                  on:input={() => handleToggleTodo(id, !completed)}
+                />
+                {order} - {title}
+                <button
+                  class="remove-todo-button"
+                  on:click={() => handleRemoveTodo(id)}
+                >
+                  Remove
+                </button>
+              </label>
+            </li>
+          {/each}
+        </ul>
+      {/if}
+    </div>
+  {/if}
   <form class="add-todo-form" on:submit|preventDefault={handleAddTodo}>
     <input bind:value={inputText} type="text" />
     <button type="submit" disabled={!inputText}>Add</button>
