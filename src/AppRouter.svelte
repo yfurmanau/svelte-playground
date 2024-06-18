@@ -1,6 +1,7 @@
 <script>
   import Home from "./lib/pages/Home.svelte";
   import Settings from "./lib/pages/Settings.svelte";
+  import About from "./lib/pages/About.svelte";
   import { onMount } from "svelte";
   import settings from "./lib/stores/settings.js";
 
@@ -12,6 +13,8 @@
       page = "home";
     } else if (path === "/settings") {
       page = "settings";
+    } else if (path === "/about") {
+      page = "about";
     } else {
       window.location.hash = "/";
     }
@@ -45,10 +48,13 @@
 <nav>
   <a href="#/">Home</a>
   <a href="#/settings">Settings</a>
+  <a href="#/about">About</a>
 </nav>
 
 {#if page === "home"}
   <Home />
 {:else if page === "settings"}
   <Settings />
+{:else if page === "about"}
+  <About />
 {/if}
