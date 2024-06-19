@@ -1,60 +1,42 @@
 <script>
-  let values = { username: "", email: "", password: "" };
-  let errors = {};
-  let isSubmitting = false;
-
-  const validate = () => {
-    const errors = {};
-    if (!values.username) {
-      errors.username = "Username is required";
-    }
-    if (!values.email) {
-      errors.email = "Email is required";
-    }
-    if (!values.password) {
-      errors.password = "Password is required";
-    }
-    return errors;
-  };
+  import { Field, Form } from "../Form/index.js";
+  import {
+    validateRequiredField,
+    validateEmail,
+  } from "../utils/validation.js";
 </script>
 
-{JSON.stringify(values)}
-<form
-  on:submit|preventDefault={() => {
-    errors = validate();
-    if (Object.keys(errors).length === 0) {
-      isSubmitting = true;
-      setTimeout(() => {
-        isSubmitting = false;
-      }, 1000);
-    }
+<Form
+  initialValues={{
+    username: "Alex",
+    email: "test@mail.io",
+  }}
+  on:submit={(e) => {
+    console.log(e.detail);
   }}
 >
-  <label>
-    Username:
-    <input bind:value={values.username} name="username" type="text" />
-  </label>
-  {#if errors.username}<p>{errors.username}</p>{/if}
-  <label>
-    Email:
-    <input bind:value={values.email} name="email" type="text" />
-  </label>
-  {#if errors.email}<p>{errors.email}</p>{/if}
-  <label>
-    Password:
-    <input
-      bind:value={values.password}
-      name="username"
-      type="password"
-    />
-  </label>
-  {#if errors.password}<p>{errors.password}</p>{/if}
-  <button disabled={isSubmitting} type="submit">Submit</button>
-</form>
-
-<style>
-  form {
-    display: flex;
-    flex-direction: column;
-  }
-</style>
+  <Field
+    label="Username"
+    name="username"
+    type="text"
+    validate={validateRequiredField}
+  />
+  <Field
+    label="Email"
+    name="email"
+    type="email"
+    validate={(value, label) => {
+      return (
+        validateRequiredField(value, label) ||
+        validateEmail(value, label)
+      );
+    }}
+  />
+  <Field
+    label="Password"
+    name="password"
+    type="password"
+    validate={validateRequiredField}
+  />
+  <button type="submit">Submit</button>
+</Form>
