@@ -1,12 +1,21 @@
 <script>
   import { v4 as uuid } from "uuid";
-  import { getContext, onMount } from "svelte";
+  import {
+    getContext,
+    onMount,
+    hasContext,
+    getAllContexts,
+  } from "svelte";
   import formKey from "./form-key.js";
 
   export let name;
   export let type = "text";
   export let label = undefined;
   export let validate = undefined;
+
+  console.log(hasContext("edf"));
+  console.log(hasContext(formKey));
+  console.log(getAllContexts());
 
   let isDirty = false;
 
@@ -47,7 +56,9 @@
     }}
   />
   {#if $formStore.errors[name] && (isDirty || $formStore.showErrors)}
-    <p class="error">{$formStore.errors[name]}</p>
+    <slot name="error" error={$formStore.errors[name]}>
+      <p class="error">{$formStore.errors[name]}</p>
+    </slot>
   {/if}
 </div>
 

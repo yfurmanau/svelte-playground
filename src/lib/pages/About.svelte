@@ -11,6 +11,8 @@
     username: "Alex",
     email: "test@mail.io",
   }}
+  let:hasErrors
+  let:errors
   on:submit={(e) => {
     console.log(e.detail);
   }}
@@ -20,7 +22,9 @@
     name="username"
     type="text"
     validate={validateRequiredField}
-  />
+  >
+    <p style="color: blueviolet" slot="error" let:error>{error}</p>
+  </Field>
   <Field
     label="Email"
     name="email"
@@ -38,5 +42,5 @@
     type="password"
     validate={validateRequiredField}
   />
-  <button type="submit">Submit</button>
+  <button type="submit" disabled={hasErrors}>Submit</button>
 </Form>
