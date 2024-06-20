@@ -1,13 +1,24 @@
+<script context="module">
+  let totalButtons = 0;
+
+  export function getTotalButtons() {
+    return totalButtons;
+  }
+</script>
+
 <script>
   export let size = "small";
   export let shadow = false;
-  export let bgColor;
-  export let textColor;
+  export let bgColor = undefined;
+  export let textColor = undefined;
 
   console.log($$restProps);
   let isLeftHovered;
+
+  totalButtons += 1;
 </script>
 
+{totalButtons}
 <button
   style:background-color={bgColor}
   style:color={textColor}
@@ -59,7 +70,10 @@
       cursor: not-allowed;
     }
     &:hover {
-      background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
+      background-image: linear-gradient(
+        rgba(0, 0, 0, 0.4),
+        rgba(0, 0, 0, 0)
+      );
     }
     &:active {
       background-image: linear-gradient(
