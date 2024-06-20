@@ -1,5 +1,5 @@
 import "./app.css";
-import App from "./AppRouter.svelte";
+import App from "./AppKonva.svelte";
 
 const app = new App({
   target: document.getElementById("app"),
