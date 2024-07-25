@@ -7,7 +7,8 @@
 		beforeUpdate,
 		createEventDispatcher,
 		onDestroy,
-		onMount
+		onMount,
+		tick
 	} from 'svelte';
 
 	const dispatch = createEventDispatcher();
@@ -17,6 +18,7 @@
 	export let todos = [];
 	let prevTodos = todos;
 	let autoscroll;
+	let listDivOffsetHeight = 0;
 
 	$: {
 		autoscroll = todos.length !== prevTodos.length;
@@ -53,8 +55,9 @@
 		console.log('Destroyed');
 	});
 
-	const handleAddTodo = () => {
+	const handleAddTodo = async () => {
 		if (!inputText) return;
+		console.log(document.querySelectorAll('.todo-list ul li'));
 		const isNotCancelled = dispatch(
 			'addtodo',
 			{
@@ -62,6 +65,9 @@
 			},
 			{ cancelable: true }
 		);
+		/* waits DOM to be updated */
+		await tick();
+		console.log(document.querySelectorAll('.todo-list ul li'));
 		if (isNotCancelled) {
 			inputText = '';
 		}
@@ -78,32 +84,36 @@
 	};
 </script>
 
+{listDivOffsetHeight}
 <div class="todo-list-wrapper">
 	<div bind:this={listDiv} class="todo-list">
-		<ul>
-			{#each todos as { title, id, completed }, index (id)}
-				{@const number = index + 1}
-				<li>
-					<label>
-						<input
-							type="checkbox"
-							checked={completed}
-							on:input={(event) => {
-								handleToggleTodo({
-									id,
-									title,
-									completed: event.currentTarget.checked
-								});
-							}}
-						/>
-						{number}
-						{title}
-					</label>
-					<button on:click={() => handleRemoveTodo(id)}>Remove</button
-					>
-				</li>
-			{/each}
-		</ul>
+		<div bind:offsetHeight={listDivOffsetHeight}>
+			<ul>
+				{#each todos as { title, id, completed }, index (id)}
+					{@const number = index + 1}
+					<li>
+						<label>
+							<input
+								type="checkbox"
+								checked={completed}
+								on:input={(event) => {
+									handleToggleTodo({
+										id,
+										title,
+										completed: event.currentTarget.checked
+									});
+								}}
+							/>
+							{number}
+							{title}
+						</label>
+						<button on:click={() => handleRemoveTodo(id)}
+							>Remove</button
+						>
+					</li>
+				{/each}
+			</ul>
+		</div>
 	</div>
 	<form
 		class="add-todo-form"

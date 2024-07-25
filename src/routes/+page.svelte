@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
 	import image from '$lib/assets/copenhagen.jpg';
-	import kate from '$lib/assets/kate.jpg';
 	let angle = 0;
 	let colors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF'];
 	let currentColorIndex = 0;
@@ -31,7 +30,6 @@
 	>
 		From Kathmandu to Copenhagen
 	</div>
-	<img src={kate} alt="Person going to Copenhagen" />
 	<img src={image} alt="Person going to Copenhagen" />
 </div>
 

@@ -4,23 +4,7 @@
 
 	let todoList;
 
-	let todos = [
-		{
-			id: uuid(),
-			title: 'Learn SvelteKit',
-			completed: true
-		},
-		{
-			id: uuid(),
-			title: 'Learn NestJs',
-			completed: true
-		},
-		{
-			id: uuid(),
-			title: 'Learn MongoDb',
-			completed: false
-		}
-	];
+	let todos = [];
 
 	const addNewTodo = (event) => {
 		event.preventDefault();
@@ -47,6 +31,20 @@
 			return t;
 		});
 	};
+
+	const loadTodos = () => {
+		return fetch(
+			'https://jsonplaceholder.typicode.com/todos?_limit=10'
+		).then((response) => {
+			if (response.ok) {
+				return response.json();
+			} else {
+				throw new Error('An error has occured');
+			}
+		});
+	};
+
+	let promise = loadTodos();
 </script>
 
 <div style="max-height: 200px; overflow: auto">
@@ -56,14 +54,20 @@
 </div>
 
 {todoList?.readonly}
-<div style="max-width: 200px">
-	<TodoList
-		{todos}
-		bind:this={todoList}
-		on:addtodo={addNewTodo}
-		on:removetodo={removeTodo}
-		on:toggletodo={toggleTodo}
-	/>
-</div>
-
+{#await promise}
+	<p>Loading...</p>
+{:then todos}
+	<div style="max-width: 400px">
+		<TodoList
+			{todos}
+			bind:this={todoList}
+			on:addtodo={addNewTodo}
+			on:removetodo={removeTodo}
+			on:toggletodo={toggleTodo}
+		/>
+	</div>
+{:catch error}
+	<p>{error.message || 'An error happened'}</p>
+{/await}
+<button on:click={() => (promise = loadTodos())}>Refresh</button>
 <button on:click={todoList.focusInput}> Focus input </button>
