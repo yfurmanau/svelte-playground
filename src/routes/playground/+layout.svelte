@@ -4,6 +4,8 @@
 		<a href="counter">Counter</a>
 		<a href="button">Button</a>
 		<a href="todo">Todo</a>
+		<a href="todo-enhanced">Enhanced Todo</a>
+		<a href="crossfade-transition">Crossfade Transition</a>
 	</li>
 </ul>
 
