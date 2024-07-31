@@ -9,6 +9,7 @@
 		<a href="actions-practice">Actions</a>
 		<a href="home">Home</a>
 		<a href="settings">Settings</a>
+		<a href="tweened">Tweened</a>
 	</li>
 </ul>
 
