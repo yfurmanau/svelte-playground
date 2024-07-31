@@ -6,6 +6,7 @@
 		<a href="todo">Todo</a>
 		<a href="todo-enhanced">Enhanced Todo</a>
 		<a href="crossfade-transition">Crossfade Transition</a>
+		<a href="actions">Actions</a>
 	</li>
 </ul>
 
