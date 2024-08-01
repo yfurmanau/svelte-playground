@@ -1,10 +1,26 @@
+<script context="module">
+	let totalButtons = 0;
+
+	export const getTotalButtons = () => totalButtons;
+</script>
+
 <script>
+	import { onDestroy, onMount } from 'svelte';
+
 	export let size = 'small';
 	export let shadow = false;
 	export let bgColor = 'red';
 	export let textColor = 'white';
 
 	let isLeftHovered = false;
+
+	onMount(() => {
+		totalButtons++;
+	});
+
+	onDestroy(() => {
+		totalButtons--;
+	});
 
 	console.log($$slots);
 	console.log($$restProps);

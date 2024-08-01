@@ -10,6 +10,8 @@
 		<a href="home">Home</a>
 		<a href="settings">Settings</a>
 		<a href="tweened">Tweened</a>
+		<a href="module-context">Module Context</a>
+		<a href="video">Video</a>
 	</li>
 </ul>
 
